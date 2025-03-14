@@ -1,0 +1,43 @@
+class Solution {
+    public int trap(int[] height) {
+ 
+
+ /*
+ * ✅ Approach: Two-Pointer Technique
+ * 
+ * - Initialize `leftMax` and `rightMax` to the first and last heights.
+ * - Use two pointers (`left = 1`, `right = n-2`) and move them toward each other.
+ * - At each step, check which boundary (`leftMax` or `rightMax`) is smaller.
+ * - Store water based on the smaller boundary.
+ * - Update `leftMax` or `rightMax` as needed.
+ * - Time Complexity: O(N), Space Complexity: O(1)
+ */
+
+        // ✅ Edge Case: If no bars or less than 3 bars, no water can be trapped
+        if (height == null || height.length < 3) return 0; 
+
+        // 🔹 Initialize pointers
+        int left = 1, right = height.length - 2; 
+        int leftMax = height[0], rightMax = height[height.length - 1];
+        int res = 0; // Stores total trapped water
+
+        // 🔹 Process until left and right pointers meet
+        while (left <= right) {
+            if (leftMax < rightMax) {
+                // Water trapped at `left` position
+                res += Math.max(0, leftMax - height[left]);
+                // Update leftMax if current height is greater
+                leftMax = Math.max(leftMax, height[left]);
+                left++; // Move left pointer
+            } else {
+                // Water trapped at `right` position
+                res += Math.max(0, rightMax - height[right]);
+                // Update rightMax if current height is greater
+                rightMax = Math.max(rightMax, height[right]);
+                right--; // Move right pointer
+            }
+        }
+
+        return res; // ✅ Return total trapped water
+    }
+}
